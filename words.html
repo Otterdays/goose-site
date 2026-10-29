@@ -171,11 +171,24 @@
     <div><dt>Rust</dt><dd>The programming language the game is written in.</dd></div>
     <div><dt>Engine</dt><dd>The part of a game that does the general work: open a window, draw 3D, read the keyboard. It knows nothing about the game's rules.</dd></div>
     <div><dt>Map (.gmap file)</dt><dd>A short text file that says how big the ground is, where the player starts, and where things like trees go.</dd></div>
+    <div><dt>Terrain</dt><dd>The shape of the ground: hills, pits and flat spots. In the editor you sculpt it with a brush.</dd></div>
+    <div><dt>Haze (fog)</dt><dd>Thin mist in the air that fades far-away things into the colour of the sky.</dd></div>
+    <div><dt>Model</dt><dd>A small text file that says how a thing looks: the parts it is built from and what they are painted with.</dd></div>
+    <div><dt>Material</dt><dd>The two colours and the pattern (planks, bricks, speckle and so on) that a part is painted with.</dd></div>
+    <div><dt>Hot reload</dt><dd>A running program picks up a changed file by itself, so you see your change without closing and reopening it.</dd></div>
+    <div><dt>Edit mode</dt><dd>A switch in the editor's Content tab that turns the details of an item, tool or recipe into forms you can change.</dd></div>
+    <div><dt>Content pack</dt><dd>A text file that says what exists in the game: skills, items, tools, trees, workbenches and recipes. The editor's Content tab lets you browse it.</dd></div>
+    <div><dt>Handle</dt><dd>An arrow, ring or square that appears on a selected thing in the editor. Drag it to move, turn or resize the thing.</dd></div>
+    <div><dt>Box select</dt><dd>Drag a rectangle over empty ground to select every thing inside it at once.</dd></div>
+    <div><dt>Undo / Redo</dt><dd>Take back the last change, or put it back again. In the editor: Ctrl+Z and Ctrl+Y.</dd></div>
     <div><dt>Editor</dt><dd>The separate program used to build the game world. The game is what players run; the editor is what the maker runs.</dd></div>
     <div><dt>Pause menu</dt><dd>The menu <kbd>Esc</kbd> opens in the game. It only takes over the keyboard and mouse. The world behind it keeps running, as an online world would.</dd></div>
     <div><dt>Mesh</dt><dd>A 3D shape made of many small flat triangles.</dd></div>
     <div><dt>Rig and joints</dt><dd>The hidden skeleton inside the character. Moving a joint, like the elbow, moves the parts attached to it.</dd></div>
     <div><dt>Animation clip</dt><dd>A short recording of joint movements, such as Idle, Walk or Wave.</dd></div>
+    <div><dt>Motion capture</dt><dd>Using a camera or sensors to estimate how a person moves, then turning that movement into character animation.</dd></div>
+    <div><dt>Pose</dt><dd>A set of estimated body joint positions at one moment.</dd></div>
+    <div><dt>Retargeting</dt><dd>Mapping recorded body movement onto the joints of a different character rig.</dd></div>
     <div><dt>Flat shaded</dt><dd>Every flat face of a shape has one even colour. It gives the sharp, faceted look.</dd></div>
     <div><dt>Smooth shading</dt><dd>Light and dark blend along a surface instead of changing at every edge. The character keeps hard edges at its corners but blends along each flat strip.</dd></div>
     <div><dt>Expression</dt><dd>A named look for the face, such as Happy or Surprised. The eyes, brows and mouth move to match.</dd></div>

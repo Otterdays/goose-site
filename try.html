@@ -169,9 +169,10 @@
       <li>Install Rust from <a href="https://rustup.rs">rustup.rs</a>. This is what builds the game.</li>
       <li>Download or copy the project folder.</li>
       <li>Double-click <code>launch.bat</code>. The first run takes a few minutes to build. Later runs are quick.</li>
-      <li>The game opens on a main menu. Press <b>Play</b>, then walk with <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>, hold <kbd>Shift</kbd> to run, press <kbd>Space</kbd> to jump, and look with the mouse. <kbd>Esc</kbd> opens a pause menu and the game keeps running behind it.</li>
+      <li>The game opens on a main menu. Press <b>Play</b>, then walk with <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>, hold <kbd>Shift</kbd> to run, press <kbd>Space</kbd> to jump, hold <kbd>Ctrl</kbd> to crouch, and look with the mouse. <kbd>Esc</kbd> opens a pause menu and the game keeps running behind it.</li>
     </ol>
-    <p class="muted">To use the character creator, double-click <code>launch-editor.bat</code> instead. That is the editor. Its World tab lets you fly around the map, place and move things, save, and press Play to walk in it.</p>
+    <p class="muted">In the game: <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> walk, <kbd>Shift</kbd> runs, <kbd>Space</kbd> jumps, hold <kbd>E</kbd> at a tree to chop it, press <kbd>E</kbd> at a workbench then a number to craft, <kbd>I</kbd> opens the backpack. The full list is in <code>docs/GAMEPLAY.md</code>.</p>
+    <p class="muted">To use the character creator, double-click <code>launch-editor.bat</code> instead. That is the editor. Its World tab lets you fly around the map, place and move things, save, and press Play to walk in it. Its Models tab builds how a tree, bench or rock looks from boxes, cylinders and ramps, with colours and patterns. The <b>? Help</b> button at the top opens a guide to everything it can do; the same guide is the file <code>docs/EDITOR_GUIDE.md</code>.</p>
     <p class="muted">To run every check on the code instead, double-click <code>master-test.bat</code>.</p>
   </div>
 
@@ -181,7 +182,7 @@
     <div><h3>The game</h3><p>The rules and the player's experience. Will tie everything together.</p></div>
     <div><h3>The engine</h3><p>The window, the camera, the drawing, the keyboard and mouse.</p></div>
     <div><h3>The content files</h3><p>Items, skills and recipes written as plain text in <code>.goose</code> files. Changing the game should mean editing text, not code.</p></div>
-    <div><h3>The tools</h3><p>Small scripts that make the character and the hat, and check them for mistakes.</p></div>
+    <div><h3>The tools</h3><p>Small scripts that make the character, hat and cape, and check them for mistakes.</p></div>
   </div>
   <p class="muted measure" style="margin-top:16px">The rule behind it: every part must be <b>S</b>eparate, <b>S</b>table, <b>I</b>mprovable, <b>M</b>alleable and <b>S</b>calable. Short version: parts do not reach into each other, they are tested, and they can be swapped out.</p>
 
