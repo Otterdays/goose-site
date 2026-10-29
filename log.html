@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress log - Goose</title>
+<meta name="description" content="The Goose progress log, newest first.">
+<meta name="theme-color" content="#1B1B21">
+<!--
+  AGENTS: this site is part of the project. Update it in the same change whenever
+  you finish something a visitor would notice (see "Website" in AGENTS.md).
+  Six pages, one topic each, the same inline <style> in every one:
+    index.html (home), status.html, gallery.html, try.html, log.html, words.html.
+  1. Edit "Last updated" on index.html and keep its three "At a glance" lines true.
+  2. Move rows between "Works today", "Not yet" and "Next up" on status.html.
+  3. Add a log entry at the TOP of log.html. Same day as the top entry? Add a
+     <div class="entry"> inside that day's <li> instead of a new <li>.
+  4. If a render changed, copy the newest one over site/img/.
+  5. A style change goes into every page's <style> (they are copies on purpose:
+     each page opens from disk on its own).
+  Keep it plain: short sentences, no jargon without an entry on words.html.
+-->
+<style>
+  :root {
+    --white: #F4F2EC; --black: #1B1B21; --orange: #FF7A1A;
+    --bg: var(--white); --panel: #FFFFFF; --text: var(--black);
+    --muted: #55555E; --line: #D8D5CB; --ink-on-orange: var(--black);
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #141418; --panel: #1E1E24; --text: #F4F2EC; --muted: #A9A9B2; --line: #34343C; }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scrollbar-color: var(--orange) var(--bg); }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  ::selection { background: var(--orange); color: var(--black); }
+  :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 3px; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  .measure { max-width: 68ch; }
+  a { color: inherit; text-decoration-color: var(--orange); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  a:hover { text-decoration-thickness: 4px; }
+  code, kbd { font: 0.88em ui-monospace, "Cascadia Code", Consolas, monospace; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
+  kbd { border-bottom-width: 3px; }
+
+  /* Header: black bar, orange rule, one row of page links. */
+  header.top { background: var(--black); color: var(--white); border-bottom: 4px solid var(--orange); }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 60px; }
+  .brand { font-weight: 850; font-size: 1.3rem; letter-spacing: 0.01em; text-decoration: none; flex: none; }
+  .brand span { color: var(--orange); }
+  header.top nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+  header.top nav a { text-decoration: none; white-space: nowrap; font-size: 0.92rem; padding: 6px 10px; border-radius: 6px; color: #D9D7D0; }
+  header.top nav a:hover { color: var(--white); background: #2A2A32; }
+  header.top nav a[aria-current="page"] { background: var(--orange); color: var(--black); font-weight: 700; }
+  @media (max-width: 600px) {
+    header.top .wrap { flex-direction: column; align-items: stretch; gap: 4px; padding-top: 10px; padding-bottom: 8px; }
+    header.top nav { margin: 0 -10px; }
+  }
+
+  main { padding: 44px 0 64px; }
+  h1 { font-size: clamp(2.1rem, 6vw, 3.6rem); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 16px; text-wrap: balance; }
+  h2 { font-size: 1.45rem; line-height: 1.2; margin: 48px 0 8px; text-wrap: balance; }
+  h3 { font-size: 1.05rem; margin: 0 0 4px; }
+  .lead { font-size: 1.2rem; margin: 0 0 14px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 0.9rem; }
+  p { margin: 0 0 12px; }
+
+  /* Home hero: words left, the character right. */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 36px; align-items: center; }
+  .hero img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--line); background: #fff; aspect-ratio: 1; object-fit: cover; }
+  .hero h1 em { font-style: normal; color: var(--orange); }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 24px; } }
+
+  .button { display: inline-block; background: var(--orange); color: var(--black); font-weight: 750; text-decoration: none; padding: 10px 18px; border-radius: 8px; margin: 6px 10px 6px 0; }
+  .button:hover { background: var(--black); color: var(--white); }
+  .button.quiet { background: transparent; color: var(--text); box-shadow: inset 0 0 0 2px var(--text); }
+  .button.quiet:hover { background: var(--text); color: var(--bg); }
+  @media (prefers-color-scheme: dark) { .button:hover { background: var(--white); color: var(--black); } }
+
+  /* Three-line state of play on the home page. */
+  .state { list-style: none; padding: 0; margin: 40px 0 0; border-top: 2px solid var(--text); }
+  .state li { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 4px 18px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .state b { font-size: 1.05rem; }
+  .state b.on { color: var(--orange); }
+  @media (max-width: 520px) { .state li { grid-template-columns: 1fr; } }
+
+  .pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 0 32px; margin-top: 8px; }
+  .pages a { display: block; text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .pages a b { display: block; font-size: 1.08rem; }
+  .pages a b::after { content: " \2192"; color: var(--orange); }
+  .pages a span { color: var(--muted); font-size: 0.95rem; }
+  .pages a:hover b { text-decoration: underline; text-decoration-color: var(--orange); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+  /* Status rows: a mark, a name, a plain sentence. */
+  .rows { list-style: none; padding: 0; margin: 12px 0 0; border-top: 2px solid var(--text); }
+  .rows li { display: grid; grid-template-columns: 1.4em minmax(0, 13em) minmax(0, 1fr); gap: 4px 16px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .rows svg { width: 1.1em; height: 1.1em; align-self: center; }
+  .rows .yes svg { color: var(--orange); }
+  .rows .no svg, .rows .half svg { color: var(--muted); }
+  .rows li p { margin: 0; }
+  @media (max-width: 600px) { .rows li { grid-template-columns: 1.4em minmax(0, 1fr); } .rows li p { grid-column: 2; } }
+
+  ol.next { list-style: none; counter-reset: n; padding: 0; margin: 12px 0 0; }
+  ol.next li { counter-increment: n; display: grid; grid-template-columns: 2.4em minmax(0, 1fr); gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  ol.next li::before { content: counter(n); font-weight: 850; font-size: 1.6rem; line-height: 1.1; color: var(--orange); font-variant-numeric: tabular-nums; }
+
+  figure { margin: 28px 0 0; }
+  figure img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--line); background: #fff; object-fit: cover; object-position: top; }
+  figure img.crop-character { aspect-ratio: 1500 / 1026; }
+  figure img.crop-hat { aspect-ratio: 1260 / 420; }
+  figcaption { color: var(--muted); font-size: 0.92rem; margin-top: 8px; max-width: 68ch; }
+
+  ol.steps { padding-left: 1.3em; margin: 12px 0; }
+  ol.steps li { margin-bottom: 10px; padding-left: 4px; }
+  ol.steps li::marker { color: var(--orange); font-weight: 800; }
+
+  .parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 0 28px; margin-top: 12px; border-top: 2px solid var(--text); }
+  .parts div { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .parts p { margin: 0; font-size: 0.95rem; color: var(--muted); }
+
+  .log { list-style: none; padding: 0; margin: 12px 0 0; }
+  .log li { display: grid; grid-template-columns: 7em minmax(0, 1fr); gap: 4px 20px; padding: 18px 0; border-top: 2px solid var(--text); }
+  .log time { font-weight: 800; font-variant-numeric: tabular-nums; }
+  .log .entry + .entry { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .log .what { font-weight: 750; margin-bottom: 2px; }
+  .log p { margin: 0; }
+  @media (max-width: 520px) { .log li { grid-template-columns: 1fr; } }
+
+  dl { margin: 12px 0 0; border-top: 2px solid var(--text); }
+  dl div { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr); gap: 4px 20px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  dt { font-weight: 750; }
+  dd { margin: 0; color: var(--muted); }
+  @media (max-width: 520px) { dl div { grid-template-columns: 1fr; } }
+
+  .pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .pager a { text-decoration: none; font-weight: 700; }
+  .pager a span { display: block; font-weight: 400; color: var(--muted); font-size: 0.88rem; }
+  .pager .fwd { margin-left: auto; text-align: right; }
+
+  footer { background: var(--black); color: var(--white); border-top: 4px solid var(--orange); padding: 26px 0; font-size: 0.92rem; }
+  footer p { margin: 0 0 6px; }
+  footer .muted { color: #A9A9B2; }
+  footer code { background: #2A2A32; border-color: #3A3A44; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Goose<span>.</span></a>
+    <nav aria-label="Pages">
+      <a href="index.html">Home</a>
+      <a href="status.html">Status</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="try.html">Try it</a>
+      <a href="log.html" aria-current="page">Log</a>
+      <a href="words.html">Words</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="measure">
+    <h1>Progress log</h1>
+    <p class="lead">What changed, newest first, grouped by day.</p>
+  </div>
+  <ul class="log">
+    <li>
+      <time datetime="2026-10-29">2026-10-29</time>
+      <div>
+        <div class="entry"><p class="what">The game can load a map.</p><p>A map is a short text file that lists where trees, workbenches and rocks go. The game now opens a starter map, sets the ground size and start point from it, and shows each thing as a simple coloured box. The checker tool can test a map too. Checked by tests; not yet looked at in the running game.</p></div>
+        <div class="entry"><p class="what">The game and the editor become two programs.</p><p>The game now opens with no menus and quits with <kbd>Esc</kbd>. The character creator moved into a new program called the editor, started with <code>launch-editor.bat</code>. This is the first step toward a place where the world gets built. Checked by tests and a clean build; not yet looked at in the running windows.</p></div>
+        <div class="entry"><p class="what">Tools brought up to date.</p><p>Rust moved to 1.99 and the small timing helper to its 1.0 release. Every other building block was already on its newest version. Physics will use one engine only, called rapier. All checks still pass.</p></div>
+        <div class="entry"><p class="what">The site splits into pages.</p><p>One long page became six short ones: Home, Status, Gallery, Try it, Log and Words.</p></div>
+        <div class="entry"><p class="what">A Female look, smoother shoulders and arms.</p><p>Choosing Female now adds a bust shape and offers four new hair styles: ponytail, bob, pigtails and braid. The shoulders were reshaped so the sleeves join the body, the shading is smoother, the arms hang closer to the body, and the hips now flow into the belt without a ledge. Checked in pictures and tests; not yet looked at in the running game.</p></div>
+        <div class="entry"><p class="what">This site goes up.</p><p>A plain summary of the project, kept up to date as the work moves.</p></div>
+      </div>
+    </li>
+    <li>
+      <time datetime="2026-10-28">2026-10-28</time>
+      <div>
+        <div class="entry"><p class="what">Faces, hair and a better body.</p><p>The character is now made of 8-sided shapes. Added a face with eyes, brows, mouth, expressions and blinking. Added four more hair styles and a Male / Female toggle for the hair list.</p></div>
+        <div class="entry"><p class="what">The Goose hat.</p><p>First wearable item, built and checked over several rounds until it sat well on the head.</p></div>
+        <div class="entry"><p class="what">Walking and Test mode.</p><p>Walk with the keyboard, camera follows, and the Test button for mouse look.</p></div>
+        <div class="entry"><p class="what">The foundation.</p><p>The project structure, the <code>.goose</code> content language with a checker, gathering and crafting rules with tests, the window, and the first character creator.</p></div>
+      </div>
+    </li>
+  </ul>
+
+  <nav class="pager" aria-label="Next and previous page"><a href="try.html"><span>Back</span>&larr; Try it</a><a class="fwd" href="words.html"><span>Next page</span>Words &rarr;</a></nav>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Goose</b>: made slowly, one piece at a time.</p>
+    <p class="muted">These pages live in the project's <code>site</code> folder. Open any of them in a browser; no internet needed.</p>
+  </div>
+</footer>
+
+</body>
+</html>
